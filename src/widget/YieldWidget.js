@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './YieldWidget.css';
+import './WalletConnect.css';
 import bgImage from './bg.avif';
 import logoImage from './logowithtext.png';
+import WalletConnect from './WalletConnect';
 
 const YieldWidget = ({ 
   addresses = [], 
@@ -13,7 +15,8 @@ const YieldWidget = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [inputAddress, setInputAddress] = useState('');
-  const [selectedCurrency, setSelectedCurrency] = useState(currency);
+  const [selectedCurrency, setSelectedCurrency] = useState(currency); 
+  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
   const fetchYieldData = useCallback(async (addressList) => {
     if (!addressList || addressList.length === 0) return;
@@ -77,13 +80,42 @@ const YieldWidget = ({
 
   useEffect(() => {
     if (addresses.length > 0) {
-      fetchYieldData(addresses);
+      // Limit to first 200 addresses to avoid API overload
+      const limitedAddresses = addresses.slice(0, 200);
+      if (addresses.length > 200) {
+        console.warn(`Liqwid Yield Widget: Limited to first 200 addresses (${addresses.length} provided)`);
+      }
+      fetchYieldData(limitedAddresses);
     }
   }, [addresses, selectedCurrency, fetchYieldData]);
+
+  // Handle wallet connection
+  const handleWalletConnect = useCallback((connectedAddresses) => {
+    // Limit to first 200 addresses to avoid API overload
+    const limitedAddresses = connectedAddresses ? connectedAddresses.slice(0, 200) : [];
+    if (connectedAddresses && connectedAddresses.length > 200) {
+      console.warn(`Liqwid Yield Widget: Limited to first 200 addresses from wallet (${connectedAddresses.length} found)`);
+    } 
+    setIsWalletConnected(true);
+    if (limitedAddresses && limitedAddresses.length > 0) {
+      fetchYieldData(limitedAddresses);
+    }
+  }, [fetchYieldData]);
+
+  // Handle wallet disconnection
+  const handleWalletDisconnect = useCallback(() => { 
+    setIsWalletConnected(false);
+    setYieldData(null);
+    setError(null);
+  }, []);
+
+
 
   const handleAddressSubmit = (e) => {
     e.preventDefault();
     if (inputAddress.trim()) {
+      // Clear wallet connection when manually entering address
+      setIsWalletConnected(false);
       fetchYieldData([inputAddress.trim()]);
     }
   };
@@ -128,21 +160,41 @@ const YieldWidget = ({
         </div>
       )}
 
-      {addresses.length === 0 && (
-        <form onSubmit={handleAddressSubmit} className="address-form">
-          <div className="input-group">
-            <input
-              type="text"
-              placeholder="Enter Cardano address..."
-              value={inputAddress}
-              onChange={(e) => setInputAddress(e.target.value)}
-              className="address-input"
-            />
-            <button type="submit" disabled={loading} className="submit-button">
-              {loading ? 'Loading...' : 'Check Yield'}
-            </button>
+      {addresses.length === 0 && !isWalletConnected && (
+        <div className="wallet-connect-section">
+          <WalletConnect 
+            onConnect={handleWalletConnect}
+            onDisconnect={handleWalletDisconnect}
+          />
+          
+          <div className="or-divider">
+            <span>or</span>
           </div>
-        </form>
+          
+          <form onSubmit={handleAddressSubmit} className="address-form">
+            <div className="input-group">
+              <input
+                type="text"
+                placeholder="Enter Cardano address manually..."
+                value={inputAddress}
+                onChange={(e) => setInputAddress(e.target.value)}
+                className="address-input"
+              />
+              <button type="submit" disabled={loading} className="submit-button">
+                {loading ? 'Loading...' : 'Check Yield'}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {addresses.length === 0 && isWalletConnected && (
+        <div className="wallet-connected-section">
+          <WalletConnect 
+            onConnect={handleWalletConnect}
+            onDisconnect={handleWalletDisconnect}
+          />
+        </div>
       )}
 
       {loading && (

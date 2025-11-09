@@ -11,6 +11,10 @@
   background-repeat: no-repeat;
   color: white;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 300px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .liqwid-yield-widget::before {
@@ -94,6 +98,8 @@
 /* Address Form */
 .address-form {
   padding: 20px;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.3s forwards;
 }
 
 .input-group {
@@ -153,6 +159,13 @@
 .loading-container {
   padding: 40px 20px;
   text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 .spinner {
@@ -173,9 +186,26 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
 /* Error */
 .error-container {
   padding: 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
 }
 
 .error-message {
@@ -194,6 +224,9 @@
 /* Results */
 .yield-results {
   padding: 20px;
+  flex: 1;
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out 0.2s forwards;
 }
 
 .total-yield {
@@ -357,6 +390,8 @@
   padding: 16px 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   text-align: center;
+  margin-top: auto;
+  z-index: 10;
 }
 
 .powered-by {
@@ -379,6 +414,64 @@
   opacity: 1;
 }
 
+
+/* Wallet Connect Sections */
+.wallet-connect-section {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.wallet-connected-section {
+  padding: 20px;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  text-align: center;
+  opacity: 0;
+  animation: fadeIn 0.4s ease-out 0.2s forwards;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.or-divider span {
+  padding: 0 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.wallet-addresses-info {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.addresses-count {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+  text-align: center;
+}
 
 /* Responsive */
 @media (max-width: 480px) {
