@@ -1,16 +1,19 @@
-# 🚀 Liqwid Yield Widget
+# 🚀 Liqwid Yield SDK
 
-A plug-and-play React widget for displaying [Liqwid Finance](https://v2.liqwid.finance) yield earnings data. Easily embed yield tracking functionality into any website or React application.
+A plug-and-play React widget for displaying [Liqwid Finance](https://liqwid.finance) yield earnings data. Easily embed yield tracking functionality into any website or React application.
+
+[![npm version](https://badge.fury.io/js/liqwid-yield-sdk.svg)](https://www.npmjs.com/package/liqwid-yield-sdk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
-- 🎨 **Multiple Themes**: Light and dark themes with Liqwid Finance styling
-- 📱 **Responsive Design**: Works on desktop, tablet, and mobile
-- 🔌 **Easy Integration**: Use as React component or standalone HTML widget
-- 💰 **Multi-Currency**: Support for GBP, USD, EUR, and ADA
+- 🎨 **Beautiful UI**: Custom-designed widget with Liqwid Finance branding
+- 📱 **Responsive**: Works perfectly on desktop, tablet, and mobile
+- 🔌 **Easy Integration**: Use as React component or vanilla JavaScript
+- 💰 **Multi-Currency**: Support for GBP, USD, EUR
 - ⚡ **Real-time Data**: Fetches live yield data from Liqwid Finance API
 - 🎯 **Configurable**: Extensive customization options
-- 📦 **Lightweight**: Minimal dependencies and optimized bundle size
+- 📦 **Lightweight**: Minimal bundle size with optimized dependencies
 
 ## 🏗️ Installation
 
@@ -26,8 +29,8 @@ yarn add liqwid-yield-sdk
 
 ```html
 <!-- React Dependencies -->
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
 <!-- Liqwid Yield Widget -->
 <script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js"></script>
@@ -37,98 +40,183 @@ yarn add liqwid-yield-sdk
 
 ### React Component
 
-```jsx
+```tsx
+import React from 'react';
 import { YieldWidget } from 'liqwid-yield-sdk';
 
 function App() {
   return (
-    <YieldWidget
-      addresses={['addr1q86q7ntzwrzx7j7rynwmaque5rlyvw6e3e4tmas8dw87qwh3k9scpg9uzp5k2w67ug04vwt8qqj74ehmlp65ry2m4xcszztsps']}
-      currency="GBP"
-      theme="light"
-    />
+    <div>
+      <h1>My DeFi Dashboard</h1>
+      
+      {/* Basic widget - user enters their address */}
+      <YieldWidget currency="USD" />
+      
+      {/* Pre-filled widget */}
+      <YieldWidget
+        addresses={['addr1q86q7ntzwrzx7j7rynwmaque5rlyvw6e3e4tmas8dw87qwh3k9scpg9uzp5k2w67ug04vwt8qqj74ehmlp65ry2m4xcszztsps']}
+        currency="GBP"
+        showHeader={true}
+      />
+    </div>
   );
 }
 ```
 
-### HTML/JavaScript
+### HTML + JavaScript
 
 ```html
-<div id="yield-widget"></div>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Website</title>
+</head>
+<body>
+  <!-- Widget container -->
+  <div id="yield-widget"></div>
 
-<script>
-  LiqwidYieldWidget.create({
-    elementId: 'yield-widget',
-    addresses: ['addr1q86q7ntzwr...'],
-    currency: 'GBP',
-    theme: 'light'
-  });
-</script>
+  <!-- Scripts -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js"></script>
+  
+  <script>
+    // Initialize the widget
+    LiqwidYieldWidget.create({
+      elementId: 'yield-widget',
+      currency: 'USD',
+      showHeader: true
+    });
+  </script>
+</body>
+</html>
 ```
 
-## ⚙️ Configuration Options
+## ⚙️ Configuration
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `addresses` | `string[]` | `[]` | Array of Cardano addresses to fetch yield data for |
 | `currency` | `'GBP' \| 'USD' \| 'EUR' \| 'ADA'` | `'GBP'` | Display currency for yield amounts |
-| `theme` | `'light' \| 'dark'` | `'light'` | Widget color scheme |
-| `compact` | `boolean` | `false` | Enable compact layout mode |
-| `showHeader` | `boolean` | `true` | Show/hide widget header with title and currency selector |
-| `onThemeChange` | `function` | `null` | Callback function called when theme is toggled (receives new theme as parameter) |
-| `apiUrl` | `string` | `'https://v2.api.liqwid.finance/graphql'` | Custom API endpoint |
-
-## 🎨 Styling
-
-The widget comes with built-in responsive styling that matches Liqwid Finance's design system. You can customize the appearance by:
-
-1. **Using built-in themes**: `light` or `dark`
-2. **CSS custom properties**: Override specific colors and spacing
-3. **CSS classes**: Target specific elements with custom styles
-
-### CSS Custom Properties
-
-```css
-.liqwid-yield-widget {
-  --primary-color: #667eea;
-  --background-color: #ffffff;
-  --text-color: #2d3748;
-  --border-radius: 12px;
-}
-```
+| `showHeader` | `boolean` | `true` | Show/hide widget header with currency selector 
 
 ## 📖 Examples
 
-### Basic Widget (User Input)
+### Next.js Integration
 
-```jsx
-<YieldWidget />
+```tsx
+// components/YieldWidget.tsx
+import dynamic from 'next/dynamic';
+
+const YieldWidget = dynamic(() => import('liqwid-yield-sdk'), {
+  ssr: false,
+  loading: () => <p>Loading yield widget...</p>
+});
+
+export default function DashboardPage() {
+  return (
+    <div>
+      <h1>Portfolio Dashboard</h1>
+      <YieldWidget currency="USD" />
+    </div>
+  );
+}
 ```
 
-### Pre-configured Widget with Theme Toggle
+### WordPress Integration
 
-```jsx
-const [currentTheme, setCurrentTheme] = useState('light');
+Add this to your theme or use a code injection plugin:
 
-<YieldWidget
-  addresses={['addr1q86q7ntzwr...']}
-  currency="USD"
-  theme={currentTheme}
-  compact={true}
-  onThemeChange={setCurrentTheme}
-/>
+```html
+<!-- Add to your post/page -->
+<div id="liqwid-widget" style="margin: 20px 0;"></div>
+
+<script>
+  // Load dependencies if not already loaded
+  if (!window.React) {
+    document.head.appendChild(Object.assign(document.createElement('script'), {
+      src: 'https://unpkg.com/react@18/umd/react.production.min.js',
+      crossOrigin: 'anonymous'
+    }));
+  }
+  
+  if (!window.ReactDOM) {
+    document.head.appendChild(Object.assign(document.createElement('script'), {
+      src: 'https://unpkg.com/react-dom@18/umd/react-dom.production.min.js',
+      crossOrigin: 'anonymous'
+    }));
+  }
+  
+  // Load widget
+  document.head.appendChild(Object.assign(document.createElement('script'), {
+    src: 'https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js',
+    onload: () => {
+      LiqwidYieldWidget.create({
+        elementId: 'liqwid-widget',
+        currency: 'USD'
+      });
+    }
+  }));
+</script>
 ```
 
-### Multiple Widgets
+### Vue.js Integration
 
-```jsx
-<div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-  <YieldWidget currency="GBP" theme="light" />
-  <YieldWidget currency="USD" theme="dark" />
-</div>
+```vue
+<template>
+  <div ref="widgetContainer" id="yield-widget"></div>
+</template>
+
+<script>
+export default {
+  name: 'YieldWidget',
+  async mounted() {
+    // Dynamically import the widget
+    const { LiqwidYieldWidget } = await import('liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js');
+    
+    LiqwidYieldWidget.create({
+      elementId: 'yield-widget',
+      currency: 'EUR'
+    });
+  }
+}
+</script>
 ```
 
-## 🌐 API Integration
+## 🎨 Customization
+
+The widget uses CSS custom properties for easy theming:
+
+```css
+.liqwid-yield-widget {
+  --widget-max-width: 400px;
+  --widget-border-radius: 12px;
+  --widget-primary-color: #667eea;
+  --widget-text-color: white;
+}
+```
+
+## 🔧 Development
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/liqwid-yield-sdk.git
+cd liqwid-yield-sdk
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm test
+```
+
+## 📊 API Reference
 
 The widget integrates with the Liqwid Finance GraphQL API:
 
@@ -151,108 +239,9 @@ query GetYieldEarned($input: YieldEarnedInput!, $currencyInput: InCurrencyInput)
 }
 ```
 
-## 🛠️ Development
-
-### Setup
-
-```bash
-# Clone repository
-git clone <repository-url>
-cd liqwid-yield-sdk
-
-# Install dependencies
-npm install
-
-# Start development server
-npm start
-```
-
-### Building
-
-```bash
-# Build widget for distribution
-npm run build
-
-# Build demo app
-npm run build:demo
-```
-
-### Scripts
-
-- `npm start` - Start development server with demo
-- `npm run build` - Build widget for distribution
-- `npm run build:demo` - Build demo application
-- `npm test` - Run tests
-
-## 📁 Project Structure
-
-```
-src/
-├── widget/
-│   ├── YieldWidget.js      # Main widget component
-│   ├── YieldWidget.css     # Widget styles
-│   └── index.js           # Widget exports
-├── App.js                 # Demo application
-└── index.js              # Demo entry point
-```
-
-## 🔧 Integration Patterns
-
-### WordPress
-
-```html
-<!-- Add to theme's functions.php or use a code injection plugin -->
-<div id="liqwid-yield-widget"></div>
-
-<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js"></script>
-
-<script>
-  LiqwidYieldWidget.create({
-    elementId: 'liqwid-yield-widget',
-    theme: 'light'
-  });
-</script>
-```
-
-### Next.js
-
-```jsx
-import dynamic from 'next/dynamic';
-
-const YieldWidget = dynamic(() => import('liqwid-yield-sdk'), {
-  ssr: false
-});
-
-export default function HomePage() {
-  return <YieldWidget currency="GBP" />;
-}
-```
-
-### Vue.js
-
-```vue
-<template>
-  <div ref="widgetContainer"></div>
-</template>
-
-<script>
-export default {
-  mounted() {
-    // Load widget script dynamically
-    import('liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js').then(() => {
-      window.LiqwidYieldWidget.create({
-        elementId: this.$refs.widgetContainer.id,
-        currency: 'EUR'
-      });
-    });
-  }
-}
-</script>
-```
-
 ## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
@@ -262,39 +251,24 @@ export default {
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🆘 Support
 
-- 📚 [Documentation](https://github.com/your-repo/liqwid-yield-sdk)
-- 🐛 [Bug Reports](https://github.com/your-repo/liqwid-yield-sdk/issues)
-- 💬 [Community Discord](https://discord.gg/liqwid)
-- 🌐 [Liqwid Finance](https://v2.liqwid.finance)
+- 📚 [Documentation](https://github.com/yourusername/liqwid-yield-sdk)
+- 🐛 [Bug Reports](https://github.com/yourusername/liqwid-yield-sdk/issues)
+- 💬 [Twitter](https://x.com/itzdannyada)
+- 🌐 [Liqwid Finance](https://liqwid.finance)
+
+## 🏷️ Changelog
+
+### v0.1.0
+- Initial release
+- React component and vanilla JS support
+- Multi-currency display
+- Responsive design
+- Real-time data fetching
 
 ---
 
-Built with ❤️ for the Cardano ecosystem
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built with ❤️ by [@itzdanny](https://x.com/itzdannyada) for the Cardano ecosystem
