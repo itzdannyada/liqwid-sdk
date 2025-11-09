@@ -1,11 +1,7 @@
 import './App.css';
 import YieldWidget from './widget/YieldWidget';
 
-function App() {
-
-  // const exampleAddresses = [
-  //   'addr1q86q7ntzwrzx7j7rynwmaque5rlyvw6e3e4tmas8dw87qwh3k9scpg9uzp5k2w67ug04vwt8qqj74ehmlp65ry2m4xcszztsps'
-  // ];
+function App() { 
 
   return (
     <div className="App" style={{ padding: '20px', background: '#f7fafc', minHeight: '100vh' }}>
@@ -15,17 +11,7 @@ function App() {
           <p>A plug-and-play widget for displaying Liqwid Finance yield data</p>
         </header>
 
-        <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-          {/* Widget with pre-filled address */}
-          {/* 
-          <div>
-            <h3>With Pre-filled Address</h3>
-            <YieldWidget
-              addresses={['addr1q86q7ntzwr...']}
-              currency="GBP"
-            />
-          </div> 
-          */}
+        <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}> 
 
           {/* Widget without address (user input) */}
           <div>
@@ -80,7 +66,6 @@ function App() {
             <li><strong>addresses</strong>: Array of Cardano addresses to fetch data for</li>
             <li><strong>currency</strong>: Display currency ('GBP', 'USD', 'EUR', 'ADA')</li>
             <li><strong>showHeader</strong>: Show/hide widget header (boolean)</li>
-            <li><strong>apiUrl</strong>: Custom API endpoint (optional)</li>
           </ul>
         </div>
       </div>
