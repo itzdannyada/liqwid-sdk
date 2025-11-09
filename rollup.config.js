@@ -1,9 +1,10 @@
-import babel from '@rollup/plugin-babel';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import terser from '@rollup/plugin-terser';
-import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import postcss from 'rollup-plugin-postcss';
+const babel = require('@rollup/plugin-babel');
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const terser = require('@rollup/plugin-terser');
+const url = require('@rollup/plugin-url');
+const peerDepsExternal = require('rollup-plugin-peer-deps-external');
+const postcss = require('rollup-plugin-postcss');
 
 const config = {
   input: 'src/widget/index.js',
@@ -26,7 +27,8 @@ const config = {
       name: 'LiqwidYieldWidget',
       globals: {
         react: 'React',
-        'react-dom': 'ReactDOM'
+        'react-dom': 'ReactDOM',
+        'react-dom/client': 'ReactDOM'
       },
       sourcemap: true
     }
@@ -36,19 +38,24 @@ const config = {
     resolve({
       browser: true
     }),
-    commonjs(),
+    url({
+      include: ['**/*.avif', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
+      limit: 8192 // 8kb limit for inlining
+    }),
     babel({
       babelHelpers: 'bundled',
       exclude: 'node_modules/**',
-      presets: ['@babel/preset-react']
+      presets: ['@babel/preset-react'],
+      extensions: ['.js', '.jsx']
     }),
+    commonjs(),
     postcss({
       extract: true,
       minimize: true
     }),
     terser()
   ],
-  external: ['react', 'react-dom']
+  external: ['react', 'react-dom', 'react-dom/client']
 };
 
-export default config;
+module.exports = config;
