@@ -1,7 +1,26 @@
 {
   "name": "liqwid-yield-sdk",
   "version": "0.1.0",
-  "private": true,
+  "description": "A React widget for displaying Liqwid Finance yield earnings data",
+  "keywords": ["liqwid", "yield", "cardano", "widget", "finance", "defi"],
+  "homepage": "https://github.com/itzdannyada/liqwid-yield-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itzdannyada/liqwid-yield-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/itzdannyada/liqwid-yield-sdk/issues"
+  },
+  "author": "itzdannyada@gmail.com",
+  "license": "MIT",
+  "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -10,13 +29,35 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "axios": "^1.6.0"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "react-scripts start",
+    "build": "npm run build:widget",
+    "build:widget": "rollup -c",
+    "build:demo": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run clean && npm run build:widget",
+    "prepare": "npm run build:widget"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.22.0",
+    "@rollup/plugin-babel": "^6.0.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2"
   },
   "eslintConfig": {
     "extends": [
