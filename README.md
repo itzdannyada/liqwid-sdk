@@ -54,7 +54,7 @@ function App() {
       
       {/* Pre-filled widget */}
       <YieldWidget
-        addresses={['addr1q86q7ntzwrzx7j7rynwmaque5rlyvw6e3e4tmas8dw87qwh3k9scpg9uzp5k2w67ug04vwt8qqj74ehmlp65ry2m4xcszztsps']}
+        addresses={['address1','address2?']}
         currency="GBP"
         showHeader={true}
       />
