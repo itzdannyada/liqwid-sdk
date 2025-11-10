@@ -2,6 +2,8 @@
 
 A plug-and-play React SDK for displaying [Liqwid Finance](https://liqwid.finance) yield earnings data. Easily embed yield tracking functionality into any website or React application.
 
+Live demo available at: https://liqwid-sdk-demo.vercel.app/
+
 [![npm version](https://badge.fury.io/js/liqwid-sdk.svg)](https://www.npmjs.com/package/liqwid-sdk) 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
