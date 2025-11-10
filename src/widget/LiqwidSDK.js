@@ -84,7 +84,7 @@ const LiqwidSDK = ({
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            "x-project": "itzdanny-liqwid-sdk"
+            "x-app-source": "itzdanny-liqwid-sdk"
         },
         body: JSON.stringify({
           operationName: 'GetYieldEarned',
@@ -142,7 +142,7 @@ const LiqwidSDK = ({
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            "x-project": "itzdanny-liqwid-sdk"
+            "x-app-source": "itzdanny-liqwid-sdk"
         },
         body: JSON.stringify({
           operationName: 'GetMarketsState',
