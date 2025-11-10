@@ -358,15 +358,12 @@ const LiqwidSDK = ({
   useEffect(() => {
     processUserAssets();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userAssets, marketsData]);
+  }, [utxosData, marketsData]);
 
   // Handle wallet connection
-  const handleWalletConnect = useCallback((connectedAddresses) => {
+  const handleWalletConnect = () => {
     // Limit to first 200 addresses to avoid API overload
-    const limitedAddresses = connectedAddresses ? connectedAddresses.slice(0, 200) : [];
-    if (connectedAddresses && connectedAddresses.length > 200) {
-      console.warn(`Liqwid SDK: Limited to first 200 addresses from wallet (${connectedAddresses.length} found)`);
-    } 
+    const limitedAddresses = usedAddresses ? usedAddresses.slice(0, 200) : addresses.slice(0, 200);
     setIsWalletConnected(true);
     if (limitedAddresses && limitedAddresses.length > 0) {
       fetchYieldData(limitedAddresses);
@@ -374,11 +371,11 @@ const LiqwidSDK = ({
       fetchUtxos(limitedAddresses);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   // Handle wallet disconnection
   const handleWalletDisconnect = useCallback(() => {
-	disconnect();
+	  disconnect();
     setIsWalletConnected(false);
     setYieldData(null);
     setUtxosData(null);
