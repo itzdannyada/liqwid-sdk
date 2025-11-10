@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface YieldWidgetProps {
+export interface LiqwidSDKProps {
   /**
    * Array of Cardano addresses to fetch yield data for
    */
@@ -26,7 +26,7 @@ export interface YieldWidgetProps {
 }
 
 /**
- * Liqwid Yield Widget Component
+ * Liqwid SDK Component
  * 
  * A React component that displays yield earnings data from Liqwid Finance.
  * Can be used with pre-filled addresses or as an input form for users.
@@ -34,24 +34,24 @@ export interface YieldWidgetProps {
  * @example
  * ```tsx
  * // Basic usage
- * <YieldWidget />
+ * <LiqwidSDK />
  * 
  * // With pre-filled address
- * <YieldWidget 
+ * <LiqwidSDK 
  *   addresses={['addr1q86q7ntzwr...']}
  *   currency="USD"
  * />
  * ```
  */
-export declare const YieldWidget: React.FC<YieldWidgetProps>;
+export declare const LiqwidSDK: React.FC<LiqwidSDKProps>;
 
-export default YieldWidget;
+export default LiqwidSDK;
 
 // Global window object for script tag usage
 declare global {
   interface Window {
-    LiqwidYieldWidget?: {
-      render: (elementId: string, props?: YieldWidgetProps) => any;
+    LiqwidSDK?: {
+      render: (elementId: string, props?: LiqwidSDKProps) => any;
       create: (config: {
         elementId: string;
         addresses?: string[];

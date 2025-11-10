@@ -1,6 +1,6 @@
 import './App.css';
-// import YieldWidget from './widget/YieldWidget'; 
-import { YieldWidget } from 'liqwid-yield-sdk';
+import LiqwidSDK from './widget/LiqwidSDK'; 
+// import { LiqwidSDK } from 'liqwid-yield-sdk';
 
 function App() { 
 
@@ -8,15 +8,20 @@ function App() {
     <div className="App" style={{ padding: '20px', background: '#f7fafc', minHeight: '100vh' }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <h1>Liqwid Yield Widget Demo</h1>
-          <p>A plug-and-play widget for displaying Liqwid Finance yield data</p>
+          <h1>Liqwid SDK Demo</h1>
+          <p>A plug-and-play SDK for displaying Liqwid Finance yield data</p>
         </header>
 
         <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}> 
-
-          {/* Widget without address (user input) */}
           <div>
-            <YieldWidget
+            <LiqwidSDK
+              addresses={['addr1q86q7ntzwrzx7j7rynwmaque5rlyvw6e3e4tmas8dw87qwh3k9scpg9uzp5k2w67ug04vwt8qqj74ehmlp65ry2m4xcszztsps']}
+              currency="USD"
+            />
+          </div>
+          {/* SDK without address (user input) */}
+          <div>
+            <LiqwidSDK
               currency="USD"
             />
           </div>
@@ -27,13 +32,13 @@ function App() {
           
           <h3>1. React/JSX Integration</h3>
           <pre style={{ background: '#f1f5f9', padding: '16px', borderRadius: '8px', overflow: 'auto' }}>
-{`import { YieldWidget } from 'liqwid-yield-sdk';
+{`import { LiqwidSDK } from 'liqwid-yield-sdk';
 
 // Basic usage
-<YieldWidget />
+<LiqwidSDK />
 
 // With configuration
-<YieldWidget
+<LiqwidSDK
   addresses={['addr1q86q7ntzwr...']}
   currency="GBP"
   showHeader={true}
@@ -42,18 +47,18 @@ function App() {
 
           <h3>2. HTML + Script Tag Integration</h3>
           <pre style={{ background: '#f1f5f9', padding: '16px', borderRadius: '8px', overflow: 'auto', text: 'left' }}>
-{`<!-- Include React and the widget script -->
+{`<!-- Include React and the SDK script -->
 <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="./dist/liqwid-yield-widget.umd.js"></script>
+<script src="./dist/liqwid-sdk.umd.js"></script>
 
 <!-- Create container -->
-<div id="liqwid-widget"></div>
+<div id="liqwid-sdk"></div>
 
 <script>
-  // Render widget
-  LiqwidYieldWidget.create({
-    elementId: 'liqwid-widget',
+  // Render SDK
+  LiqwidSDK.create({
+    elementId: 'liqwid-sdk',
     addresses: ['addr1q86q7ntzwr...'],
     currency: 'GBP',
     theme: 'light'
@@ -65,7 +70,7 @@ function App() {
           <ul style={{ textAlign: 'left' }}>
             <li><strong>addresses</strong>: Array of Cardano addresses to fetch data for</li>
             <li><strong>currency</strong>: Display currency ('GBP', 'USD', 'EUR', 'ADA')</li>
-            <li><strong>showHeader</strong>: Show/hide widget header (boolean)</li>
+            <li><strong>showHeader</strong>: Show/hide SDK header (boolean)</li>
           </ul>
         </div>
       </div>

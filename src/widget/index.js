@@ -1,21 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import YieldWidget from './YieldWidget';
+import LiqwidSDK from './LiqwidSDK';
 
 // Named export for direct import
-export { YieldWidget };
+export { LiqwidSDK };
 
 // Default export
-export default YieldWidget;
+export default LiqwidSDK;
 
 // Global function for embedding via script tag
 if (typeof window !== 'undefined') {
-  window.LiqwidYieldWidget = {
+  window.LiqwidSDK = {
     render: (elementId, props = {}) => {
       const element = document.getElementById(elementId);
       if (element) {
         const root = ReactDOM.createRoot(element);
-        root.render(React.createElement(YieldWidget, props));
+        root.render(React.createElement(LiqwidSDK, props));
         return root;
       } else {
         console.error(`Element with id "${elementId}" not found`);
@@ -37,7 +37,7 @@ if (typeof window !== 'undefined') {
         return;
       }
       
-      return window.LiqwidYieldWidget.render(elementId, {
+      return window.LiqwidSDK.render(elementId, {
         addresses,
         currency,
         showHeader,

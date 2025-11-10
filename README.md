@@ -1,13 +1,13 @@
-## 💧 Liqwid Yield SDK
+## 💧 Liqwid SDK
 
-A plug-and-play React widget for displaying [Liqwid Finance](https://liqwid.finance) yield earnings data. Easily embed yield tracking functionality into any website or React application.
+A plug-and-play React SDK for displaying [Liqwid Finance](https://liqwid.finance) yield earnings data. Easily embed yield tracking functionality into any website or React application.
 
 [![npm version](https://badge.fury.io/js/liqwid-yield-sdk.svg)](https://www.npmjs.com/package/liqwid-yield-sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## ✨ Features
 
-- 🎨 **Beautiful UI**: Custom-designed widget with Liqwid Finance branding
+- 🎨 **Beautiful UI**: Custom-designed SDK with Liqwid Finance branding
 - 📱 **Responsive**: Works perfectly on desktop, tablet, and mobile
 - 🔌 **Easy Integration**: Use as React component or vanilla JavaScript
 - 💰 **Multi-Currency**: Support for GBP, USD, EUR
@@ -32,8 +32,8 @@ yarn add liqwid-yield-sdk
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
-<!-- Liqwid Yield Widget -->
-<script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js"></script>
+<!-- Liqwid SDK -->
+<script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-sdk.umd.js"></script>
 ```
 
 ## 🚀 Quick Start
@@ -42,18 +42,18 @@ yarn add liqwid-yield-sdk
 
 ```tsx
 import React from 'react';
-import { YieldWidget } from 'liqwid-yield-sdk';
+import { LiqwidSDK } from 'liqwid-yield-sdk';
 
 function App() {
   return (
     <div>
       <h1>My DeFi Dashboard</h1>
       
-      {/* Basic widget - user enters their address */}
-      <YieldWidget currency="USD" />
+      {/* Basic SDK - user enters their address */}
+      <LiqwidSDK currency="USD" />
       
-      {/* Pre-filled widget */}
-      <YieldWidget
+      {/* Pre-filled SDK */}
+      <LiqwidSDK
         addresses={['address1','address2?']}
         currency="GBP"
         showHeader={true}
@@ -72,18 +72,18 @@ function App() {
   <title>My Website</title>
 </head>
 <body>
-  <!-- Widget container -->
-  <div id="yield-widget"></div>
+  <!-- SDK container -->
+  <div id="liqwid-sdk"></div>
 
   <!-- Scripts -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js"></script>
+  <script src="https://unpkg.com/liqwid-yield-sdk/dist/liqwid-sdk.umd.js"></script>
   
   <script>
-    // Initialize the widget
-    LiqwidYieldWidget.create({
-      elementId: 'yield-widget',
+    // Initialize the SDK
+    LiqwidSDK.create({
+      elementId: 'liqwid-sdk',
       currency: 'USD',
       showHeader: true
     });
@@ -98,26 +98,26 @@ function App() {
 |------|------|---------|-------------|
 | `addresses` | `string[]` | `[]` | Array of Cardano addresses to fetch yield data for |
 | `currency` | `'GBP' \| 'USD' \| 'EUR' \| 'ADA'` | `'GBP'` | Display currency for yield amounts |
-| `showHeader` | `boolean` | `true` | Show/hide widget header with currency selector 
+| `showHeader` | `boolean` | `true` | Show/hide SDK header with currency selector 
 
 ## 📖 Examples
 
 ### Next.js Integration
 
 ```tsx
-// components/YieldWidget.tsx
+// components/LiqwidSDK.tsx
 import dynamic from 'next/dynamic';
 
-const YieldWidget = dynamic(() => import('liqwid-yield-sdk'), {
+const LiqwidSDK = dynamic(() => import('liqwid-yield-sdk'), {
   ssr: false,
-  loading: () => <p>Loading yield widget...</p>
+  loading: () => <p>Loading Liqwid SDK...</p>
 });
 
 export default function DashboardPage() {
   return (
     <div>
       <h1>Portfolio Dashboard</h1>
-      <YieldWidget currency="USD" />
+      <LiqwidSDK currency="USD" />
     </div>
   );
 }
@@ -129,7 +129,7 @@ Add this to your theme or use a code injection plugin:
 
 ```html
 <!-- Add to your post/page -->
-<div id="liqwid-widget" style="margin: 20px 0;"></div>
+<div id="liqwid-sdk" style="margin: 20px 0;"></div>
 
 <script>
   // Load dependencies if not already loaded
@@ -147,12 +147,12 @@ Add this to your theme or use a code injection plugin:
     }));
   }
   
-  // Load widget
+  // Load SDK
   document.head.appendChild(Object.assign(document.createElement('script'), {
-    src: 'https://unpkg.com/liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js',
+    src: 'https://unpkg.com/liqwid-yield-sdk/dist/liqwid-sdk.umd.js',
     onload: () => {
-      LiqwidYieldWidget.create({
-        elementId: 'liqwid-widget',
+      LiqwidSDK.create({
+        elementId: 'liqwid-sdk',
         currency: 'USD'
       });
     }
@@ -164,18 +164,18 @@ Add this to your theme or use a code injection plugin:
 
 ```vue
 <template>
-  <div ref="widgetContainer" id="yield-widget"></div>
+  <div ref="sdkContainer" id="liqwid-sdk"></div>
 </template>
 
 <script>
 export default {
-  name: 'YieldWidget',
+  name: 'LiqwidSDK',
   async mounted() {
-    // Dynamically import the widget
-    const { LiqwidYieldWidget } = await import('liqwid-yield-sdk/dist/liqwid-yield-widget.umd.js');
+    // Dynamically import the SDK
+    const { LiqwidSDK } = await import('liqwid-yield-sdk/dist/liqwid-sdk.umd.js');
     
-    LiqwidYieldWidget.create({
-      elementId: 'yield-widget',
+    LiqwidSDK.create({
+      elementId: 'liqwid-sdk',
       currency: 'EUR'
     });
   }
@@ -185,14 +185,14 @@ export default {
 
 ## 🎨 Customization
 
-The widget uses CSS custom properties for easy theming:
+The SDK uses CSS custom properties for easy theming:
 
 ```css
-.liqwid-yield-widget {
-  --widget-max-width: 400px;
-  --widget-border-radius: 12px;
-  --widget-primary-color: #667eea;
-  --widget-text-color: white;
+.liqwid-sdk {
+  --sdk-max-width: 400px;
+  --sdk-border-radius: 12px;
+  --sdk-primary-color: #667eea;
+  --sdk-text-color: white;
 }
 ```
 
@@ -218,7 +218,7 @@ npm test
 
 ## 📊 API Reference
 
-The widget integrates with the Liqwid Finance GraphQL API:
+The SDK integrates with the Liqwid Finance GraphQL API:
 
 **Endpoint**: `https://v2.api.liqwid.finance/graphql`
 

@@ -22,9 +22,9 @@ const config = {
       sourcemap: true
     },
     {
-      file: 'dist/liqwid-yield-widget.umd.js',
+      file: 'dist/liqwid-sdk.umd.js',
       format: 'umd',
-      name: 'LiqwidYieldWidget',
+      name: 'LiqwidSDK',
       globals: {
         react: 'React',
         'react-dom': 'ReactDOM',
