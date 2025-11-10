@@ -33,7 +33,7 @@ const SupplyModal = ({
 
     // Update selected asset when asset prop changes
     useEffect(() => {
-        setSelectedAsset(asset || null);
+        setSelectedAsset(asset);
     }, [asset]);
 
     // Fetch UTXOs when modal opens
@@ -50,12 +50,12 @@ const SupplyModal = ({
         try {
             // First try to get UTXOs from connected wallet
             if (isConnected) {
-                const walletName = localStorage.getItem("cf-last-connected-wallet");
+                const wallet = localStorage.getItem("cf-last-connected-wallet");
                 
-                if (walletName && window.cardano && window.cardano[walletName.toLowerCase()]) {
+                if (wallet && window.cardano && window.cardano[wallet.toLowerCase()]) {
                     
                     try {
-                        const api = await window.cardano[walletName.toLowerCase()].enable();
+                        const api = await window.cardano[wallet.toLowerCase()].enable();
                         const utxosCbor = await api.getUtxos();
                         
                         if (!utxosCbor || utxosCbor.length === 0) {
@@ -297,11 +297,11 @@ const SupplyModal = ({
 
             // Sign the transaction using the connected wallet
             if (isConnected) {
-                const walletName = localStorage.getItem("cf-last-connected-wallet");
+                const wallet = localStorage.getItem("cf-last-connected-wallet");
                 
-                if (walletName && window.cardano && window.cardano[walletName.toLowerCase()]) {
+                if (wallet && window.cardano && window.cardano[wallet.toLowerCase()]) {
                     try {
-                        const api = await window.cardano[walletName.toLowerCase()].enable();
+                        const api = await window.cardano[wallet.toLowerCase()].enable();
                         
                         // Sign the transaction CBOR
                         const witnessSet = await api.signTx(transactionResult.cbor, true);
