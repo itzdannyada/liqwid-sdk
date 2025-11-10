@@ -6,6 +6,8 @@ import './WalletConnect.css';
 import bgImage from './bg.avif';
 import logoImage from './logowithtext.png';
 import WalletConnect from './WalletConnect';
+import WithdrawModal from './WithdrawModal';
+import SupplyModal from './SupplyModal';
 import { useCardano } from "@cardano-foundation/cardano-connect-with-wallet";
 import { NetworkType } from "@cardano-foundation/cardano-connect-with-wallet-core";
 
@@ -25,8 +27,12 @@ const LiqwidSDK = ({
 
   const [activeTab, setActiveTab] = useState('yield');
   const [isMarketModalOpen, setIsMarketModalOpen] = useState(false); 
-  const network = NetworkType.MAINNET;
-  
+  const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [selectedAssetForWithdraw, setSelectedAssetForWithdraw] = useState(null);
+  const [isSupplyModalOpen, setIsSupplyModalOpen] = useState(false);
+  const [selectedAssetForSupply, setSelectedAssetForSupply] = useState(null);
+  const network = NetworkType.MAINNET; 
+
 	const {
     connect,
 		isConnected,
@@ -37,7 +43,7 @@ const LiqwidSDK = ({
 	});
   
 	const fetchUtxos = useCallback(async (addressList) => {
-    if (!addressList) return; 
+    if (!addressList) return;
 
     try {
 	const firstAddress = addressList[0];
@@ -285,9 +291,6 @@ const LiqwidSDK = ({
     utxosData.forEach(addressData => {
       addressData.utxos.forEach(utxo => {
         utxo.amount.forEach(amount => {
-          // Skip ADA (lovelace) as it's not a receipt token
-          if (amount.unit === 'lovelace') return;
-          
           // Find matching market by comparing UTXO unit with receipt asset ID
           const matchedMarket = marketsData.find(market => 
             market.receiptAsset && market.receiptAsset.id === amount.unit
@@ -339,7 +342,7 @@ const LiqwidSDK = ({
     
     // Sort assets by value (descending)
     assets.sort((a, b) => b.valueInCurrency - a.valueInCurrency);
-    
+    console.log('Processed user assets:', assets);
     setUserAssets(assets); 
   }, [utxosData, marketsData]);
 
@@ -404,7 +407,68 @@ const LiqwidSDK = ({
     setUserAssets([]);
     setError(null);
     setLoading(false);
-  }, [disconnect]); 
+  }, [disconnect]);
+
+  // Handle withdraw modal
+  const handleWithdrawClick = useCallback((asset) => {
+    console.log('Withdraw button clicked for asset:', asset);
+    console.log('Current UTXOs data:', utxosData);
+    console.log('Current addresses:', addresses.length > 0 ? addresses : usedAddresses);
+    setSelectedAssetForWithdraw(asset);
+    setIsWithdrawModalOpen(true);
+  }, [utxosData, addresses, usedAddresses]);
+
+  const handleWithdrawClose = useCallback(() => {
+    setIsWithdrawModalOpen(false);
+    setSelectedAssetForWithdraw(null);
+  }, []);
+
+  const handleWithdrawSuccess = useCallback((transactionData) => {
+    console.log('Withdraw successful:', transactionData);
+    // Refresh user data after successful withdrawal
+    const currentAddresses = addresses.length > 0 ? addresses : (isConnected ? usedAddresses : []);
+    if (currentAddresses.length > 0) {
+      const limitedAddresses = currentAddresses.slice(0, 200);
+      fetchYieldData(limitedAddresses);
+      fetchMarketsData();
+      fetchUtxos(limitedAddresses);
+    }
+  }, [addresses, isConnected, usedAddresses, fetchYieldData, fetchMarketsData, fetchUtxos]);
+
+  const handleWithdrawError = useCallback((errorMessage) => {
+    console.error('Withdraw error:', errorMessage);
+    setError(`Withdrawal failed: ${errorMessage}`);
+  }, []);
+
+  // Handle supply modal
+  const handleSupplyClick = useCallback((asset) => {
+    console.log('Supply button clicked for asset:', asset);
+    console.log('Current UTXOs data:', utxosData);
+    console.log('Current addresses:', addresses.length > 0 ? addresses : usedAddresses);
+    setSelectedAssetForSupply(asset);
+    setIsSupplyModalOpen(true);
+  }, [utxosData, addresses, usedAddresses]);
+
+  const handleSupplyClose = useCallback(() => {
+    setIsSupplyModalOpen(false);
+    setSelectedAssetForSupply(null);
+  }, []);
+
+  const handleSupplySuccess = useCallback((transactionData) => {
+    console.log('Supply successful:', transactionData);
+    // Refresh user data after successful supply
+    const currentAddresses = addresses.length > 0 ? addresses : (isConnected ? usedAddresses : []);
+    if (currentAddresses.length > 0) {
+      const limitedAddresses = currentAddresses.slice(0, 200);
+      fetchYieldData(limitedAddresses);
+    }
+    setError(null);
+  }, [addresses, isConnected, usedAddresses, fetchYieldData]);
+
+  const handleSupplyError = useCallback((errorMessage) => {
+    console.error('Supply error:', errorMessage);
+    setError(`Supply failed: ${errorMessage}`);
+  }, []); 
 
   const formatCurrency = (amount, currency) => {
     if (!amount) return '0';
@@ -433,12 +497,12 @@ const LiqwidSDK = ({
         <div className="widget-header">
           <img src={logoImage} alt="Liqwid Finance" className="powered-by-logo" width={160} height={60}/>
           <div className="header-controls">
-		  {addresses.length === 0 && isConnected &&(<button 
-            className="disconnect-button"
-            onClick={handleWalletDisconnect}
-          >
-            Disconnect
-          </button>)}
+            {addresses.length === 0 && isConnected &&(<><button 
+              className="disconnect-button"
+              onClick={handleWalletDisconnect}
+            >
+              Disconnect
+            </button>
             <select 
               value={selectedCurrency} 
               onChange={(e) => setSelectedCurrency(e.target.value)}
@@ -448,6 +512,7 @@ const LiqwidSDK = ({
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
             </select>
+            </>)}
           </div>
         </div>
       )}
@@ -455,13 +520,13 @@ const LiqwidSDK = ({
       {(addresses.length > 0 || isConnected) && (<div className="tab-navigation">
         <button 
           className={`tab-button ${activeTab === 'yield' ? 'active' : ''}`}
-          onClick={() => setActiveTab('yield')}
+          onClick={() => {setActiveTab('yield'); setError(null); }}
         >
           Yield Earned
         </button>
         <button 
           className={`tab-button ${activeTab === 'manage' ? 'active' : ''}`}
-          onClick={() => setActiveTab('manage')}
+          onClick={() => {setActiveTab('manage'); setError(null); }}
         >
           Manage
         </button>
@@ -527,7 +592,22 @@ const LiqwidSDK = ({
               )}
 
               {(addresses.length > 0 || isConnected) && (
-                <div className="user-assets-section">                  
+                <div className="user-assets-section">
+                  {/* General Supply Button */}
+                  {!loading && marketsData && marketsData.length > 0 && (
+                    <div className="general-supply-section">
+                      <button 
+                        className="general-supply-button"
+                        onClick={() => {
+                          setSelectedAssetForSupply(null); // No pre-selected asset
+                          setIsSupplyModalOpen(true);
+                        }}
+                      >
+                        Supply New Asset
+                      </button>
+                    </div>
+                  )}
+                  
                   {loading && (
                     <div className="loading-container">
                       <div className="spinner"></div>
@@ -590,14 +670,22 @@ const LiqwidSDK = ({
                             </div>
                           </div>
 
-                          {addresses.length === 0 && isConnected & usedAddresses.length>0 &&(<div className="asset-actions">
-                            <button className="action-button supply" disabled>
-                              Supply
-                            </button>
-                            <button className="action-button withdraw" disabled>
-                              Withdraw
-                            </button>
-                          </div>)}
+                          {((addresses.length === 0 && isConnected && usedAddresses.length > 0) || addresses.length > 0) && (
+                            <div className="asset-actions">
+                              <button 
+                                className="action-button supply"
+                                onClick={() => handleSupplyClick(asset)}
+                              >
+                                Supply
+                              </button>
+                              <button 
+                                className="action-button withdraw"
+                                onClick={() => handleWithdrawClick(asset)}
+                              >
+                                Withdraw
+                              </button>
+                            </div>
+                          )}
                         </div>
                       ))}
                     </div>
@@ -675,6 +763,34 @@ const LiqwidSDK = ({
           Built by $itzdanny
         </a>
       </div>
+
+      {/* Withdraw Modal */}
+      {selectedAssetForWithdraw && (
+        <WithdrawModal
+          isOpen={isWithdrawModalOpen}
+          onClose={handleWithdrawClose}
+          asset={selectedAssetForWithdraw}
+          addresses={addresses.length > 0 ? addresses : usedAddresses}
+          utxos={utxosData ? utxosData.flatMap(addressData => 
+            addressData.utxos.map(utxo => `${utxo.tx_hash}:${utxo.output_index}`)
+          ) : []}
+          apiUrl={apiUrl}
+          onSuccess={handleWithdrawSuccess}
+          onError={handleWithdrawError}
+        />
+      )}
+
+      {/* Supply Modal */}
+      <SupplyModal
+        isOpen={isSupplyModalOpen}
+        onClose={handleSupplyClose}
+        asset={selectedAssetForSupply}
+        addresses={addresses.length > 0 ? addresses : usedAddresses}
+        apiUrl={apiUrl}
+        onSuccess={handleSupplySuccess}
+        onError={handleSupplyError}
+        marketsData={marketsData || []}
+      />
     </div>
   );
 };

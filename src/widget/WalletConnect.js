@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { useCardano } from "@cardano-foundation/cardano-connect-with-wallet";
 import { NetworkType } from "@cardano-foundation/cardano-connect-with-wallet-core";
 
-const WalletConnect = ({ onConnect, onDisconnect }) => {
+const WalletConnect = ({ onDisconnect }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const network = NetworkType.MAINNET; // You can make this configurable
