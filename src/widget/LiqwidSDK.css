@@ -1824,6 +1824,7 @@
 }
 
 .asset-select {
+  margin-bottom: 12px;
   width: 100%;
   padding: 14px 16px;
   border-radius: 8px;
