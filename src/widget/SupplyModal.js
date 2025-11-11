@@ -440,7 +440,7 @@ const SupplyModal = ({
                                 </svg>
                             </div>
                             <div>
-                                <h3>Supply Assets</h3>
+                                <h3>Supply</h3>
                                 <span className="supply-subtitle">Choose from {marketsData.filter(market => !market.delisting && !market.frozen && !market.private).length} available markets</span>
                             </div>
                         </div>
@@ -454,48 +454,44 @@ const SupplyModal = ({
                 {/* Body */}
                 <div className="modal-body">
                     <form onSubmit={handleSubmit}>
-                        {/* Asset Selection - only show if no asset was pre-selected */}
-                        {!asset && (
-                            <>
-                            <select
-                                value={selectedAsset ? (selectedAsset.marketId || selectedAsset.id) : ''}
-                                onChange={(e) => {
-                                    const marketId = e.target.value;
-                                    const market = marketsData.find(m => m.id === marketId);
-                                    setSelectedAsset(market);
-                                    setAmount(''); // Reset amount when changing asset
-                                    setCalculation(null); // Reset calculation
-                                }}
-                                className="asset-select"
-                                disabled={loading}
-                                required
-                            >
-                                <option value="">Choose an asset to supply...</option>
-                                {marketsData
-                                    .filter(market => !market.delisting && !market.frozen && !market.private)
-                                    .sort((a, b) => b.supplyAPY - a.supplyAPY) // Sort by highest APY first
-                                    .map(market => (
-                                        <option key={market.id} value={market.id}>
-                                            {market.displayName}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                            {selectedAsset && (
-                                <div className="selected-asset-preview">
-                                    <img 
-                                        src={selectedAsset.asset?.logo || `https://public.liqwid.finance/v5/assets/${selectedAsset.id.toUpperCase()}.svg`} 
-                                        alt={selectedAsset.displayName}
-                                        className="preview-asset-logo"
-                                        width={20}
-                                        height={20}
-                                    />
-                                    <span className="preview-asset-name">{selectedAsset.displayName}</span>
-                                    <span className="preview-asset-apy">{(selectedAsset.supplyAPY * 100).toFixed(2)}% APY</span>
-                                    <span className="preview-asset-apy">{(selectedAsset.supplyInCurrency / 1000000).toFixed(1)}M TVL</span>
-                                </div>
-                            )}
-                            </>
+                        {/* Asset Selection - always show to allow users to change selection */}
+                        <select
+                            value={selectedAsset ? (selectedAsset.marketId || selectedAsset.id) : ''}
+                            onChange={(e) => {
+                                const marketId = e.target.value;
+                                const market = marketsData.find(m => m.id === marketId);
+                                setSelectedAsset(market);
+                                setAmount(''); // Reset amount when changing asset
+                                setCalculation(null); // Reset calculation
+                            }}
+                            className="asset-select"
+                            disabled={loading}
+                            required
+                        >
+                            <option value="">Choose an asset to supply...</option>
+                            {marketsData
+                                .filter(market => !market.delisting && !market.frozen && !market.private)
+                                .sort((a, b) => b.supplyAPY - a.supplyAPY) // Sort by highest APY first
+                                .map(market => (
+                                    <option key={market.id} value={market.id}>
+                                        {market.displayName}
+                                    </option>
+                                ))
+                            }
+                        </select>
+                        {selectedAsset && (
+                            <div className="selected-asset-preview">
+                                <img 
+                                    src={selectedAsset.assetLogo || selectedAsset.asset?.logo || `https://public.liqwid.finance/v5/assets/${(selectedAsset.marketId || selectedAsset.id).toUpperCase()}.svg`} 
+                                    alt={selectedAsset.marketDisplayName || selectedAsset.displayName}
+                                    className="preview-asset-logo"
+                                    width={20}
+                                    height={20}
+                                />
+                                <span className="preview-asset-name">{selectedAsset.marketDisplayName || selectedAsset.displayName}</span>
+                                <span className="preview-asset-apy">{(selectedAsset.supplyAPY * 100).toFixed(2)}% APY</span>
+                                <span className="preview-asset-apy">{(selectedAsset.supplyInCurrency / 1000000).toFixed(1)}M TVL</span>
+                            </div>
                         )}
 
                         {/* Amount Input */}
@@ -572,7 +568,7 @@ const SupplyModal = ({
                                 ) : !amount || parseFloat(amount) <= 0 ? (
                                     'Enter Amount'
                                 ) : (
-                                    `Supply ${selectedAsset.marketId}`
+                                    `Supply ${selectedAsset.marketDisplayName || selectedAsset.displayName}`
                                 )}
                             </button>
                         </div>
