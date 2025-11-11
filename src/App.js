@@ -60,60 +60,63 @@ function App() {
               npm
             </a>
           </div>  
-        </header>
-        
-        <LiqwidSDK currency="USD"  />
-          <div style={{ 
-            background: 'white', 
-            borderRadius: '12px', 
-            padding: '30px', 
-            marginTop: '40px',
-            marginBottom: '40px',
-            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-          }}>
-            <h2 style={{ textAlign: 'center', marginBottom: '30px', color: '#2d3748' }}>🚀 Key Features</h2>
+        </header> 
+
+        <LiqwidSDK 
+          currency="USD"
+        /> 
+
+        <div style={{ 
+          background: 'white', 
+          borderRadius: '12px', 
+          padding: '30px', 
+          marginTop: '40px',
+          marginBottom: '40px',
+          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+        }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '30px', color: '#2d3748' }}>🚀 Key Features</h2>
+          
+          <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(2, 1fr)', '@media (max-width: 768px)': { gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' } }}>
+          
+            <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
+              <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
+          📊 <span style={{ marginLeft: '8px' }}>Yield Tracking</span>
+              </h3>
+              <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
+          Real-time yield earnings from Liqwid Finance with breakdown by market and currency conversion
+              </p>
+            </div>
             
-            <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(2, 1fr)', '@media (max-width: 768px)': { gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' } }}>
+            <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
+              <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
+          💼 <span style={{ marginLeft: '8px' }}>Position Management</span>
+              </h3>
+              <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left' }}>
+          View and manage all Liqwid positions with supply/withdraw functionality
+              </p>
+            </div>
             
-              <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
-                <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
-            📊 <span style={{ marginLeft: '8px' }}>Yield Tracking</span>
-                </h3>
-                <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
-            Real-time yield earnings from Liqwid Finance with breakdown by market and currency conversion
-                </p>
-              </div>
-              
-              <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
-                <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
-            💼 <span style={{ marginLeft: '8px' }}>Position Management</span>
-                </h3>
-                <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left' }}>
-            View and manage all Liqwid positions with supply/withdraw functionality
-                </p>
-              </div>
-              
-              <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
-                <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
-            🔗 <span style={{ marginLeft: '8px' }}>Wallet Integration</span>
-                </h3>
-                <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
-            Seamless Cardano wallet connection with transaction signing and submission
-                </p>
-              </div>
-              
-              <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
-                <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
-            🌍 <span style={{ marginLeft: '8px' }}>Multi-Currency</span>
-                </h3>
-                <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
-            Support for USD, GBP, and EUR with real-time conversion rates
-                </p>
-              </div>
+            <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
+              <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
+          🔗 <span style={{ marginLeft: '8px' }}>Wallet Integration</span>
+              </h3>
+              <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
+          Seamless Cardano wallet connection with transaction signing and submission
+              </p>
+            </div>
+            
+            <div style={{ padding: '20px', border: '1px solid #e2e8f0', borderRadius: '8px', background: '#f8fafc' }}>
+              <h3 style={{ margin: '0 0 12px 0', color: '#2d3748', display: 'flex', alignItems: 'center' }}>
+          🌍 <span style={{ marginLeft: '8px' }}>Multi-Currency</span>
+              </h3>
+              <p style={{ margin: 0, color: '#718096', fontSize: '0.9rem', textAlign: 'left'  }}>
+          Support for USD, GBP, and EUR with real-time conversion rates
+              </p>
             </div>
           </div>
+        </div>
 
-          {/* Integration Examples */}
+        {/* Integration Examples */}
         <div style={{ 
           padding: '30px', 
           background: 'white', 

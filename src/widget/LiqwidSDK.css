@@ -535,15 +535,10 @@
 
 .powered-by-logo {
   height: 24px;
-  width: auto;
-  opacity: 0.8;
+  width: auto; 
   transition: opacity 0.2s ease;
   vertical-align: middle;
-}
-
-.powered-by:hover .powered-by-logo {
-  opacity: 1;
-}
+} 
 
 
 /* Wallet Connect Sections */

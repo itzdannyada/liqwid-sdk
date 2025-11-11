@@ -498,12 +498,12 @@ const LiqwidSDK = ({
           <div className="widget-header">
             <img src={logoImage} alt="Liqwid Finance" className="powered-by-logo" width={160} height={60}/>
             <div className="header-controls">
-              {addresses.length === 0 && isConnected &&(<><button 
+              {addresses.length === 0 && isConnected &&(<button 
                 className="disconnect-button"
                 onClick={handleWalletDisconnect}
               >
                 Disconnect
-              </button>
+              </button>)}
               <select 
                 value={selectedCurrency} 
                 onChange={(e) => setSelectedCurrency(e.target.value)}
@@ -513,7 +513,6 @@ const LiqwidSDK = ({
                 <option value="USD">USD ($)</option>
                 <option value="EUR">EUR (€)</option>
               </select>
-              </>)}
             </div>
           </div>
         )}
@@ -594,7 +593,7 @@ const LiqwidSDK = ({
                 <div className="manage-content">
                   <div className="user-assets-section">
                     {/* General Supply Button */}
-                    {!marketsLoading && marketsData && marketsData.length > 0 && (
+                    {!marketsLoading && marketsData && marketsData.length > 0 && isConnected && (
                       <div className="general-supply-section">
                         <button 
                           className="general-supply-button"
@@ -680,7 +679,7 @@ const LiqwidSDK = ({
                               </div>
                             </div>
 
-                            {((addresses.length === 0 && isConnected && usedAddresses.length > 0) || addresses.length > 0) && (
+                            {(addresses.length === 0 && isConnected && usedAddresses.length > 0) && (
                               <div className="asset-actions">
                                 <button 
                                   className="action-button supply"

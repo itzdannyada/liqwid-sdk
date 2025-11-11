@@ -1,6 +1,6 @@
 {
   "name": "liqwid-sdk",
-  "version": "1.0.9",
+  "version": "1.1.1",
   "description": "A React widget for displaying Liqwid Finance yield earnings data",
   "keywords": [
     "liqwid",
@@ -8,7 +8,8 @@
     "cardano",
     "widget",
     "finance",
-    "defi"
+    "defi",
+    "sdk"
   ],
   "homepage": "https://liqwid-sdk-demo.vercel.app",
   "repository": {
