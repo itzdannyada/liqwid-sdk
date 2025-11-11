@@ -207,7 +207,9 @@ const WithdrawModal = ({
         return;
         }
 
-        if (parseFloat(amount) > asset.underlyingAmount) {
+        // Use a small tolerance to handle floating point precision issues
+        const maxAvailable = Math.floor(asset.underlyingAmount * 1000000) / 1000000;
+        if (parseFloat(amount) > maxAvailable) {
         setError('Amount exceeds available balance');
         return;
         }
@@ -403,7 +405,9 @@ const WithdrawModal = ({
     };
 
     const setMaxAmount = () => {
-        setAmount(asset.underlyingAmount.toFixed(6));
+        // Round down to ensure we don't exceed available balance due to precision issues
+        const roundedMax = Math.floor(asset.underlyingAmount * 1000000) / 1000000;
+        setAmount(roundedMax.toFixed(6));
         setError(null);
     };
 
@@ -425,10 +429,16 @@ const WithdrawModal = ({
                 <div>
                     <h3>Withdraw {asset.marketDisplayName}</h3>
                     <p className="available-balance">
-                    Available: {asset.underlyingAmount.toLocaleString('en-US', { 
-                        maximumFractionDigits: 6,
-                        minimumFractionDigits: 2 
-                    })}
+                    Available: {Math.floor(asset.underlyingAmount * 1000000) / 1000000 >= 0.000001 
+                        ? (Math.floor(asset.underlyingAmount * 1000000) / 1000000).toLocaleString('en-US', { 
+                            maximumFractionDigits: 6,
+                            minimumFractionDigits: 2 
+                        })
+                        : asset.underlyingAmount.toLocaleString('en-US', { 
+                            maximumFractionDigits: 6,
+                            minimumFractionDigits: 2 
+                        })
+                    }
                     </p>
                 </div>
                 </div>
@@ -462,12 +472,7 @@ const WithdrawModal = ({
                         MAX
                     </button>
                     </div>
-                    <div className="input-hint">
-                    You will receive approximately {amount ? 
-                        parseFloat(amount).toLocaleString('en-US', { maximumFractionDigits: 6 }) : 
-                        '0'
-                    } {asset.marketId.toUpperCase()}
-                    
+                    <div className="input-hint">                    
                     {/* Fee Information */}
                     {calculation && amount && parseFloat(amount) > 0 && (
                         <div class='asset-card'>
