@@ -610,7 +610,7 @@ const LiqwidSDK = ({
                 <div className="manage-content">
                   <div className="user-assets-section">
                     {/* General Supply Button */}
-                    {!marketsLoading && marketsData && marketsData.length > 0 && isConnected && (
+                    {!marketsLoading && marketsData && marketsData.length > 0 && isConnected && addresses.length === 0 && (
                       <div className="general-supply-section">
                         <button 
                           className="general-supply-button"
