@@ -10,7 +10,7 @@ function App() {
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <header style={{ textAlign: 'center', marginBottom: '40px' }}>
           <h1 style={{ margin: '0 0 10px 0', fontSize: '2.5rem', fontWeight: '700', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><img src="logo192.png" alt="Liqwid Logo" style={{ height: '40px', verticalAlign: 'middle', marginRight: '10px' }} />Liqwid SDK</h1>
-          <p style={{ fontSize: '1.2rem', color: '#4a5568', marginBottom: '20px' }}>A plug-and-play SDK for displaying Liqwid Finance yield data</p>
+          <p style={{ fontSize: '1.2rem', color: '#4a5568', marginBottom: '20px' }}>A plug-and-play SDK for interacting with Liqwid Finance</p>
           
           {/* GitHub and npm links */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', marginTop: '20px' }}>
