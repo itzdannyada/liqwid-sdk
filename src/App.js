@@ -85,38 +85,6 @@ function App() {
                 <LiqwidSDK 
                   currency="USD"
                 />
-              </div>
-              
-              {/* Demonstration of fixed sizing benefits */}
-              <div style={{ 
-                background: '#e6fffa', 
-                borderRadius: '12px', 
-                padding: '25px', 
-                marginTop: '30px',
-                marginBottom: '40px',
-                border: '1px solid #81e6d9'
-              }}>
-                <h3 style={{ 
-                  margin: '0 0 15px 0', 
-                  color: '#234e52',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  ✅ Fixed Dimensions Benefits
-                </h3>
-                <div style={{ 
-                  display: 'grid', 
-                  gap: '12px', 
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                  fontSize: '0.9rem',
-                  color: '#234e52'
-                }}>
-                  <div>• Consistent layout in embedded environments</div>
-                  <div>• No layout shifts when content loads</div>
-                  <div>• Predictable space requirements</div>
-                  <div>• Better for iframes and third-party sites</div>
-                </div>
               </div> 
 
               <div style={{ 
