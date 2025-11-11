@@ -490,7 +490,12 @@ const SupplyModal = ({
                                 />
                                 <span className="preview-asset-name">{selectedAsset.marketDisplayName || selectedAsset.displayName}</span>
                                 <span className="preview-asset-apy">{(selectedAsset.supplyAPY * 100).toFixed(2)}% APY</span>
-                                <span className="preview-asset-apy">{(selectedAsset.supplyInCurrency / 1000000).toFixed(1)}M TVL</span>
+                                <span className="preview-asset-apy">
+                                    {selectedAsset.supplyInCurrency && !isNaN(selectedAsset.supplyInCurrency) 
+                                        ? `${(selectedAsset.supplyInCurrency / 1000000).toFixed(1)}M TVL`
+                                        : 'TVL: N/A'
+                                    }
+                                </span>
                             </div>
                         )}
 
@@ -518,7 +523,13 @@ const SupplyModal = ({
                                         <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>Transaction Fees:</div>
                                         <div>Batching Fee: {calculation.batchingFee?.toFixed(6) || '0'} ADA</div>
                                         {calculation.walletFee > 0 && (
-                                            <div>Wallet Fee: {calculation.walletFee?.toFixed(6) || '0'} {(selectedAsset.marketId || selectedAsset.id).toUpperCase()}</div>
+                                            <div>Wallet Fee: {(() => {
+                                                const decimals = selectedAsset?.asset?.decimals || 6;
+                                                const multiplier = Math.pow(10, decimals);
+                                                const convertedFee = calculation.walletFee / multiplier;
+                                                const roundedDownFee = Math.floor(convertedFee * multiplier) / multiplier;
+                                                return roundedDownFee.toFixed(decimals);
+                                            })()} {(selectedAsset.marketId || selectedAsset.id).toUpperCase()}</div>
                                         )}
                                         {calculation.supplyCap && (
                                             <div style={{ color: '#666', marginTop: '4px' }}>

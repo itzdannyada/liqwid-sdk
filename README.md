@@ -14,8 +14,6 @@ Live demo available at: https://liqwid-sdk-demo.vercel.app/
 - 🔌 **Easy Integration**: Use as React component or vanilla JavaScript
 - 💰 **Multi-Currency**: Support for GBP, USD, EUR
 - ⚡ **Real-time Data**: Fetches live yield data from Liqwid Finance API
-- 🎯 **Configurable**: Extensive customization options
-- 📦 **Lightweight**: Minimal bundle size with optimized dependencies
 
 ## 🏗️ Installation
 

@@ -1396,7 +1396,7 @@
 .asset-select option {
   background: #1a1a1a;
   color: white;
-  padding: 8px;
+  padding: 4px;
 }
 
 @media (max-width: 480px) {

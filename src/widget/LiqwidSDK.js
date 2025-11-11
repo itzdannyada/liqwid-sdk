@@ -334,7 +334,12 @@ const LiqwidSDK = ({
                   borrowAPY: matchedMarket.borrowAPY,
                   assetLogo: matchedMarket.asset.logo,
                   assetPrice,
-                  decimals
+                  decimals,
+                  // Include market data for supply modal compatibility
+                  supplyInCurrency: matchedMarket.supplyInCurrency,
+                  id: matchedMarket.id,
+                  displayName: matchedMarket.displayName,
+                  asset: matchedMarket.asset
                 });
               }
             }

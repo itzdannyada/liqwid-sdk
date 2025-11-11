@@ -496,7 +496,13 @@ const WithdrawModal = ({
                         <div>Transaction Fees:</div>
                         <div>Batching Fee: {calculation.batchingFee?.toFixed(6) || '0'} ADA</div>
                         {calculation.walletFee > 0 && (
-                            <div>Wallet Fee: {calculation.walletFee?.toFixed(6) || '0'} {asset.marketId.toUpperCase()}</div>
+                            <div>Wallet Fee: {(() => {
+                                const decimals = asset.decimals || 6;
+                                const multiplier = Math.pow(10, decimals);
+                                const convertedFee = calculation.walletFee / multiplier;
+                                const roundedDownFee = Math.floor(convertedFee * multiplier) / multiplier;
+                                return roundedDownFee.toFixed(decimals);
+                            })()} {asset.marketId.toUpperCase()}</div>
                         )}
                         {calculation.withdrawCap && (
                             <div>
