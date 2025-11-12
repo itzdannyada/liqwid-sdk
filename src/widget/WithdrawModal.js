@@ -13,7 +13,6 @@ const WithdrawModal = ({
   onError
 }) => {
     const network = NetworkType.MAINNET; 
-    const wallet = localStorage.getItem("cf-last-connected-wallet").toUpperCase();
     const { 
         isConnected, 
     } = useCardano({
