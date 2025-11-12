@@ -533,12 +533,12 @@ const LiqwidSDK = ({
         >
           Supplies
         </button>
-        <button 
+        {addresses.length === 0 && isConnected && (<button 
           className={`tab-button ${activeTab === 'loan' ? 'active' : ''}`}
           onClick={() => {setActiveTab('loan'); setError(null); }}
         >
           Borrow
-        </button>
+        </button>)}
       </div>)}
 
       <div className="tab-content">

@@ -245,7 +245,7 @@ function App() {
             position: 'sticky',
             top: '20px'
           }}>
-              <LiqwidSDK 
+              <LiqwidSDK
                 currency="USD"
               />
           </div>
