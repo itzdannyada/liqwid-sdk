@@ -64,7 +64,7 @@ const WalletConnect = ({ onDisconnect }) => {
 
       {isModalOpen && !isConnected && 
         createPortal(
-          <div className="wallet-modal-overlay" onClick={() => setIsModalOpen(false)}>
+          <div className="modal-overlay" onClick={() => setIsModalOpen(false)}>
             <div className="wallet-modal" onClick={(e) => e.stopPropagation()}>
               <div className="modal-header">
                 <h3>Select Wallet</h3>

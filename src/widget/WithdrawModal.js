@@ -147,7 +147,7 @@ const WithdrawModal = ({
                 input: {
                 amount: parseFloat(withdrawAmount),
                 marketId: asset.marketId,
-                wallet: wallet
+                wallet: "ETERNL"
                 }
             },
             query: `query GetWithdrawCalculation($input: WithdrawCalculationInput!) {
@@ -186,7 +186,7 @@ const WithdrawModal = ({
         } finally {
         setCalculationLoading(false);
         }
-    }, [apiUrl, asset.marketId, wallet]);
+    }, [apiUrl, asset.marketId]);
 
     // Debounced calculation effect
     useEffect(() => {

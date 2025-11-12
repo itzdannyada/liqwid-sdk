@@ -89,23 +89,6 @@
   transform: translateY(0);
 }
 
-/* Modal Styles */
-.wallet-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999999;
-  opacity: 0;
-  animation: fadeInOverlay 0.2s ease-out forwards;
-}
-
 .wallet-modal {
   background: rgba(17, 24, 39, 0.95);
   border: 1px solid rgba(255, 255, 255, 0.1);

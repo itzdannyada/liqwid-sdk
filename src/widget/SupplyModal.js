@@ -13,8 +13,7 @@ const SupplyModal = ({
   onError,
   marketsData = []
 }) => {
-    const network = NetworkType.MAINNET; 
-    const wallet = localStorage.getItem("cf-last-connected-wallet")?.toUpperCase() || 'ETERNL';
+    const network = NetworkType.MAINNET;  
     
     const { 
         isConnected, 
@@ -71,38 +70,12 @@ const SupplyModal = ({
                     }
                 }
             }
-
-            // Fallback: try to get UTXOs from Blockfrost if addresses are provided
-            if (addresses && addresses.length > 0) {
-                const firstAddress = addresses[0];
-                
-                const response = await fetch(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${firstAddress}/utxos`, {
-                    method: 'GET',
-                    headers: {
-                        project_id: 'mainnetlBWPrTbaGzxaghUHKqQnlZ48FkUV07Pl',
-                        accept: 'application/json'
-                    }
-                });
-
-                if (response.status === 404) {
-                    setUtxos([]);
-                    return;
-                }
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const blockfrostUtxos = await response.json();
-                setUtxos(blockfrostUtxos);
-                return;
-            } 
             
         } catch (error) {
             console.error('Error fetching UTXOs:', error); 
         } finally { 
         }
-    }, [isConnected, addresses]);  
+    }, [isConnected]);  
 
     // Validate UTXO structure - handles both wallet CBOR UTXOs and Blockfrost UTXOs
     const validateUtxos = (utxos) => {
@@ -154,7 +127,7 @@ const SupplyModal = ({
                         input: {
                             amount: parseFloat(supplyAmount),
                             marketId: selectedAsset.marketId || selectedAsset.id,
-                            wallet: wallet
+                            wallet: "ETERNL"
                         }
                     },
                     query: `query GetSupplyCalculation($input: SupplyCalculationInput!) {
@@ -193,7 +166,7 @@ const SupplyModal = ({
         } finally {
             setCalculationLoading(false);
         }
-    }, [apiUrl, selectedAsset, wallet]);
+    }, [apiUrl, selectedAsset]);
 
     // Debounced calculation effect
     useEffect(() => {
@@ -412,7 +385,7 @@ const SupplyModal = ({
     if (!isOpen) return null;
 
     return createPortal(
-        <div className="wallet-modal-overlay supply-modal" onClick={handleClose}>
+        <div className="modal-overlay supply-modal" onClick={handleClose}>
             <div className="wallet-modal" onClick={(e) => e.stopPropagation()}> 
                 {/* Header */}
                 <div className="modal-header">

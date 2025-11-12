@@ -58,8 +58,7 @@
 /* Tab Navigation */
 .tab-navigation {
   display: flex;
-  padding-top: 10px;
-  padding: 16px 20px;
+  padding: 10px 20px;
   gap: 8px;
   background: rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -385,6 +384,7 @@
   cursor: pointer;
   transition: all 0.2s ease;
   outline: none;
+  max-height:32px
 }
 
 .currency-select option {
@@ -933,7 +933,6 @@
   line-height: 1.4;
 }
 
-/* Responsive */
 @media (max-width: 480px) {
   .liqwid-sdk {
     width: 100%;
@@ -1159,15 +1158,14 @@
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
+    padding: 12px 12px 8px 12px;
   }
   
   .powered-by-logo {
     align-self: flex-start;
   }
-}
 
-/* Fix for extra scrollbar on screens smaller than 400px */
-@media (max-width: 400px) {
+
   .yield-results {
     overflow: hidden; /* Remove main scrollbar */
   }
@@ -1187,6 +1185,46 @@
     flex: 1;
     min-height: 0;
     max-height: none; /* Remove fixed height limit */
+  }
+
+  .tab-navigation {
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  .yield-tab,
+  .manage-tab,
+  .borrow-tab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    animation: tabFadeIn 0.4s ease-out forwards;
+    height: 0; /* Forces flex container to respect parent height */
+    min-height: 0; /* Prevents flex items from forcing container expansion */
+    overflow: hidden; /* Hide overflow during transition */
+  }
+
+  .manage-content {
+    /* Uses .tab-panel-content with custom padding override */
+    padding: 8px 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    min-height: 0;
+  }
+}
+
+/* Very small screens (350px and below) - Column layout for action buttons */
+@media (max-width: 375px) {
+  .asset-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .action-button {
+    width: 100%;
   }
 }
 
@@ -1228,7 +1266,7 @@
 .user-assets-section {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   flex: 1;
   overflow: hidden; /* Prevents content from overflowing */
   min-height: 0; /* Prevents flex items from forcing container expansion */
@@ -1267,7 +1305,7 @@
   padding-right: 4px;
   padding-top: 4px;
   padding-bottom: 4px;
-  min-height: 0; /* Prevents overflow from expanding parent */
+  /*min-height: 0;  Prevents overflow from expanding parent */
 }
 
 .assets-grid::-webkit-scrollbar {
@@ -1444,8 +1482,7 @@
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  padding: 16px; 
-  margin: 0px 0px 16px 0px;
+  padding: 16px;
 }
 
 .summary-row {
@@ -1471,6 +1508,8 @@
 /* Unified Modal Styles */
 .modal-overlay {
   position: fixed;
+  width: 100%;
+  height: 100%;
   top: 0;
   left: 0;
   right: 0;
@@ -1724,7 +1763,7 @@
 
 /* General Supply Section */
 .general-supply-section {
-  padding: 16px 0;
+  padding: 8px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
 }
 
