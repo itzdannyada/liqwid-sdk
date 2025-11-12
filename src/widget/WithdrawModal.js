@@ -43,7 +43,7 @@ const WithdrawModal = ({
         try {
             // First try to get UTXOs from connected wallet
             if (isConnected) {
-                const wallet = localStorage.getItem("cf-last-connected-wallet")?.toUpperCase() || 'ETERNL';
+                const wallet = localStorage.getItem("cf-last-connected-wallet")?.toUpperCase();
                 
                 if (wallet && window.cardano && window.cardano[wallet.toLowerCase()]) {
                     
@@ -250,7 +250,7 @@ const WithdrawModal = ({
             changeAddress: changeAddress || primaryAddress, // Use primary address if not provided
             otherAddresses: addresses.slice(1), // All addresses except the first one
             utxos: formattedUtxos,
-            wallet: wallet
+            wallet: "ETERNL"
         };
 
         // Add custom output destination if specified
